@@ -24,8 +24,22 @@ body {
 a{
   color: #006b3a;
 }
-main a{
+/*main a{
   outline: none;
+}*/
+/* Show a visible focus outline on links, inputs, and buttons.
+    Previously nothing showed when tabbing onto them. */
+a:focus,
+input:focus,
+button:focus {
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+
+/* Use a bright focus outline against the newsletter's black background. */
+.newsletter input:focus,
+.newsletter button:focus {
+  outline-color: #ffdf00;
 }
 h2 {
   margin-top: 0;
@@ -206,7 +220,8 @@ article p {
       <nav class="menu">
         <a href="#">Home</a>
         <a href="#">Politics</a>
-        <a href="#" tabindex="-1">Business</a>
+        <!-- Removed tabindex="-1" so the Business link is reachable with Tab and Shift+Tab in keyboard navigation -->
+        <a href="#">Business</a> 
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
         <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
@@ -214,14 +229,7 @@ article p {
       </nav>
     </div>
   </header>
-  <div class="newsletter">
-    <div class="container">
-      <h3>Like the Funion? Consider joining our newsletter!</h3>
-      <input type="text">
-      <button type="button" onfocus="getFocus()">Sign up</button></div>
-      
-    </div>
-  </div>
+  <!--   stuff was removed from here :) -->
   <main class="container">
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
@@ -239,11 +247,13 @@ article p {
     <div class="side-by-side">
       <div class="column">
         <div class="tier-header">
-          <h2 tabindex="0">In the news</h2>
+          <!-- Removed 'tabindex="0"' from this non-interactive heading to avoid an unnecessary stop during keyboard navigation. -->
+          <h2>In the news</h2>
         </div>
         <article>
           <h3 class="headline">Bee wonders if maybe everyone else is a drone and he's the only one who has it "figured out."</h3>
-          <p><a href="#" tabindex="1"><b>Read More</b></a></p>
+          <!-- Removed the positive tabindex 'tabindex="1"' so this link follows its position in the page's normal tab order. -->
+          <p><a href="#"><b>Read More</b></a></p>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/bee.jpg?raw=true" alt="A bee on top of a flower" />
         </article>
       </div>
@@ -275,7 +285,9 @@ article p {
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/coffee.jpg?raw=true" alt="A cup of coffee on a table" />
           <div class="info">
             <h3 class="headline">San Franciscans are losing their minds over this third wave, artisanal, fair trade, handcrafted, locavore coffee. <a href="#">Read More</a></h3>
-        </article>
+            <!-- Close the article's information container before closing the article. -->
+            </div>
+          </article>
         <article>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/football.jpg?raw=true" alt="A football player hands the ball off to another player" />
           <div class="info">
@@ -286,10 +298,26 @@ article p {
     </div>
     
   </main>
-  <!--   stuff can be added here :)
   <footer>
+  <!-- Moved the newsletter after the main content so keyboard navigation follows the page's visual order -->
+    <div class="newsletter">
+      <div class="container">
+        <h3>Like the Funion? Consider joining our newsletter!</h3>
+        <!-- Associate a visible email label with the newsletter input so its purpose is clear to screen-reader users. -->
+        <label for="newsletter-email">Email address</label>
+        <input
+          id="newsletter-email"
+          name="newsletter-email"
+          type="email"
+          autocomplete="email">
+
+        <!-- Changed 'onfocus' to 'onclick' so the popup opens only when the user clicks the button, rather than when Tab moves focus onto it -->
+        <button type="button" onclick="getFocus()">Sign up</button></div>
+        
+      </div>
+    </div>
   </footer>
-  -->
+
   
   <script>
     function getFocus() {
